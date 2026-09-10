@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Menu – Mo's Tacos</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap');
+
+  :root{
+    --bg:#FAF3E7; --surface:#FFFBF3; --surface-2:#F2E2C9;
+    --ink:#241712; --ink-soft:#5B4A3F;
+    --accent:#C43B1F; --accent-ink:#FFFFFF; --accent-2:#3F7A3D; --gold:#B9791C;
+    --line:#E4D5C0;
+    --charred:#1C130E; --charred-ink:#F3E6D3; --charred-line:#3C2C1F;
+    --shadow: 0 18px 40px -22px rgba(28,19,14,0.45);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#18110C; --surface:#221811; --surface-2:#2C1F16;
+      --ink:#F5E9D9; --ink-soft:#C7B29D;
+      --accent:#FF6B45; --accent-ink:#1C130E; --accent-2:#7BC46E; --gold:#EFB13F;
+      --line:#3A2A1E;
+      --charred:#100B08; --charred-ink:#F3E6D3; --charred-line:#3C2C1F;
+      --shadow: 0 18px 40px -20px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#18110C; --surface:#221811; --surface-2:#2C1F16;
+    --ink:#F5E9D9; --ink-soft:#C7B29D;
+    --accent:#FF6B45; --accent-ink:#1C130E; --accent-2:#7BC46E; --gold:#EFB13F;
+    --line:#3A2A1E;
+    --charred:#100B08; --charred-ink:#F3E6D3; --charred-line:#3C2C1F;
+    --shadow: 0 18px 40px -20px rgba(0,0,0,0.6);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:"Work Sans", ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing:antialiased;}
+  img{max-width:100%; display:block;}
+  a{color:inherit;}
+  h1,h2,h3{text-wrap:balance; margin:0;}
+  .display{font-family:"Bungee", ui-sans-serif, system-ui, sans-serif; letter-spacing:0.01em;}
+  .eyebrow{font-size:0.78rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent);}
+  .wrap{max-width:1120px; margin:0 auto; padding-inline:20px;}
+  section{padding-block:56px;}
+  @media (max-width:640px){ section{padding-block:40px;} }
+
+  .nav{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+  .nav-row{display:flex; align-items:center; justify-content:space-between; gap:16px; padding-block:14px;}
+  .brand{font-family:"Bungee", sans-serif; font-size:1.05rem; line-height:1; color:var(--ink); text-decoration:none; white-space:nowrap;}
+  .brand span{color:var(--accent);}
+  .nav-links{display:flex; align-items:center; gap:22px; font-weight:600; font-size:0.92rem;}
+  .nav-links a{text-decoration:none; color:var(--ink-soft);}
+  .nav-links a:hover{color:var(--accent);}
+  .nav-links a.active{color:var(--accent);}
+  .nav-cta{display:inline-flex; align-items:center; gap:8px; background:var(--accent); color:var(--accent-ink); padding:9px 16px; border-radius:999px; font-weight:700; font-size:0.88rem; text-decoration:none; white-space:nowrap;}
+  @media (max-width:760px){ .nav-links a:not(.nav-cta){display:none;} }
+
+  .status-strip{background:var(--surface-2); border-bottom:1px solid var(--line); font-size:0.85rem; color:var(--ink-soft);}
+  .status-row{display:flex; flex-wrap:wrap; gap:8px 22px; align-items:center; padding-block:9px;}
+  .status-dot{width:8px; height:8px; border-radius:50%; background:var(--accent-2); display:inline-block; flex:none;}
+  .status-dot.closed{background:var(--accent);}
+  .status-row strong{color:var(--ink); font-weight:700;}
+
+  .page-head{padding-block:44px 8px;}
+  .page-head h1{font-size:clamp(2rem, 4vw, 2.8rem); margin-block:10px 12px;}
+  .page-head p{font-size:1.02rem; line-height:1.6; color:var(--ink-soft); max-width:60ch; margin:0;}
+
+  .hero{padding-block:56px 60px;}
+  .hero-grid{display:grid; grid-template-columns:1.05fr 0.95fr; gap:48px; align-items:center;}
+  @media (max-width:860px){ .hero-grid{grid-template-columns:1fr; gap:36px;} }
+  .hero h1{font-size:clamp(2.1rem, 4.4vw, 3.4rem); line-height:1.04; margin-block:14px 18px; color:var(--ink);}
+  .hero p.lede{font-size:1.08rem; line-height:1.6; color:var(--ink-soft); max-width:46ch; margin:0 0 26px;}
+  .chip-row{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:30px;}
+  .chip{display:inline-flex; align-items:center; gap:7px; border:1px solid var(--line); background:var(--surface); padding:7px 13px; border-radius:999px; font-size:0.84rem; font-weight:600; color:var(--ink-soft);}
+  .chip b{color:var(--ink); font-weight:700;}
+  .cta-row{display:flex; flex-wrap:wrap; gap:12px;}
+  .btn{display:inline-flex; align-items:center; gap:9px; padding:13px 22px; border-radius:10px; font-weight:700; font-size:0.95rem; text-decoration:none; border:1px solid transparent; cursor:pointer;}
+  .btn-primary{background:var(--accent); color:var(--accent-ink);}
+  .btn-ghost{background:transparent; border-color:var(--line); color:var(--ink);}
+  .btn:focus-visible{outline:3px solid var(--gold); outline-offset:2px;}
+
+  .hero-art{position:relative; border-radius:20px; overflow:hidden; border:1px solid var(--line); box-shadow:var(--shadow); background:var(--charred);}
+  .hero-art img{width:100%; height:100%; object-fit:cover; aspect-ratio:4/3;}
+  .hero-art figcaption{margin:0; padding:10px 14px; font-size:0.78rem; color:var(--charred-ink); background:var(--charred); border-top:1px solid var(--charred-line); display:flex; justify-content:space-between; gap:10px;}
+
+  .menu-board{background:var(--charred); color:var(--charred-ink); border-radius:22px; padding:clamp(28px,4vw,48px); border:1px solid var(--charred-line);}
+  .menu-board .eyebrow{color:var(--gold);}
+  .menu-board h2{color:var(--charred-ink); font-size:clamp(1.6rem,3vw,2.2rem); margin-block:10px 8px;}
+  .menu-board .sub{color:#C9B29B; max-width:60ch; line-height:1.6; margin:0 0 30px;}
+  .menu-cols{display:grid; grid-template-columns:repeat(2, 1fr); gap:34px 48px;}
+  @media (max-width:760px){ .menu-cols{grid-template-columns:1fr; gap:30px;} }
+  .menu-cat h3{font-family:"Bungee", sans-serif; font-size:1rem; color:var(--gold); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:14px; padding-bottom:10px; border-bottom:2px solid var(--charred-line);}
+  .menu-item{display:flex; gap:10px; align-items:baseline; padding-block:9px; border-bottom:1px dashed var(--charred-line);}
+  .menu-item:last-child{border-bottom:none;}
+  .menu-item-name{font-weight:600; color:var(--charred-ink);}
+  .menu-item-desc{display:block; font-size:0.8rem; color:#B5A18A; font-weight:400; margin-top:2px;}
+  .menu-item-fill{flex:1; border-bottom:2px dotted var(--charred-line); transform:translateY(-4px); min-width:12px;}
+  .menu-item-price{font-variant-numeric:tabular-nums; font-weight:700; color:var(--charred-ink); white-space:nowrap;}
+  .menu-note{margin-top:32px; padding-top:22px; border-top:1px solid var(--charred-line); display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between;}
+  .menu-note p{margin:0; color:#C9B29B; font-size:0.9rem; max-width:48ch; line-height:1.5;}
+
+  .teaser-grid{display:grid; grid-template-columns:repeat(4, 1fr); gap:18px;}
+  @media (max-width:900px){ .teaser-grid{grid-template-columns:repeat(2, 1fr);} }
+  @media (max-width:480px){ .teaser-grid{grid-template-columns:1fr;} }
+  .teaser-card{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px; display:flex; flex-direction:column; gap:6px;}
+  .teaser-card .name{font-weight:700;}
+  .teaser-card .desc{font-size:0.82rem; color:var(--ink-soft); line-height:1.4; flex:1;}
+  .teaser-card .price{font-variant-numeric:tabular-nums; font-weight:800; color:var(--accent);}
+
+  .band{display:grid; grid-template-columns:auto 1fr auto; gap:22px; align-items:center; background:var(--surface-2); border:1px solid var(--line); border-radius:18px; padding:22px 26px;}
+  @media (max-width:640px){ .band{grid-template-columns:1fr; text-align:left;} }
+  .band-icon{width:52px; height:52px; border-radius:14px; background:var(--accent-2); color:#fff; display:flex; align-items:center; justify-content:center; flex:none;}
+  .band-icon svg{width:26px; height:26px;}
+  .band h3{font-size:1.05rem; margin-bottom:4px;}
+  .band p{margin:0; color:var(--ink-soft); font-size:0.92rem; line-height:1.5;}
+
+  .split{display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start;}
+  @media (max-width:820px){ .split{grid-template-columns:1fr; gap:36px;} }
+  .panel{background:var(--surface); border:1px solid var(--line); border-radius:18px; padding:28px 30px; box-shadow:var(--shadow);}
+  .panel h3{font-size:1.15rem; margin-bottom:18px;}
+  table.hours{width:100%; border-collapse:collapse; font-size:0.95rem;}
+  table.hours td{padding:8px 0; border-bottom:1px solid var(--line);}
+  table.hours tr:last-child td{border-bottom:none;}
+  table.hours td:first-child{color:var(--ink-soft); font-weight:600;}
+  table.hours td:last-child{text-align:right; font-variant-numeric:tabular-nums; font-weight:600;}
+  .today{color:var(--accent) !important;}
+  .addr-line{display:flex; gap:12px; align-items:flex-start; margin-bottom:16px;}
+  .addr-line .ic{flex:none; margin-top:2px; color:var(--ink-soft);}
+  .ic-svg{width:18px; height:18px; display:block;}
+  .addr-line div{line-height:1.5;}
+  .addr-line a{text-decoration:underline; text-decoration-color:var(--line); text-underline-offset:3px;}
+  .price-badge{display:inline-flex; gap:2px; font-weight:800; color:var(--gold); font-size:1.05rem;}
+
+  .mini-hours{width:100%; border-collapse:collapse; font-size:0.92rem; margin-bottom:18px;}
+  .mini-hours td{padding:5px 0; color:var(--ink-soft);}
+  .mini-hours td:last-child{text-align:right; font-weight:700; color:var(--ink); font-variant-numeric:tabular-nums;}
+
+  footer{border-top:1px solid var(--line); padding-block:40px;}
+  .foot-grid{display:flex; flex-wrap:wrap; justify-content:space-between; gap:26px;}
+  .foot-brand .brand{font-size:1.15rem;}
+  .foot-brand p{color:var(--ink-soft); font-size:0.88rem; margin:8px 0 0; max-width:34ch; line-height:1.5;}
+  .foot-links{display:flex; gap:34px; flex-wrap:wrap;}
+  .foot-col h4{font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--ink-soft); margin:0 0 10px;}
+  .foot-col a{display:block; text-decoration:none; color:var(--ink); font-size:0.92rem; padding-block:3px;}
+  .foot-col a:hover{color:var(--accent);}
+  .foot-bottom{margin-top:34px; padding-top:18px; border-top:1px solid var(--line); font-size:0.8rem; color:var(--ink-soft); display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between;}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="wrap nav-row">
+    <a href="index.html" class="brand">MO'S <span>TACOS</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="menu.html" class="active">Menu</a>
+      <a href="visit.html">Hours &amp; Location</a>
+      <a href="tel:12604841988" class="nav-cta">Call (260) 484-1988</a>
+    </div>
+  </div>
+</nav>
+<div class="status-strip">
+  <div class="wrap status-row">
+    <span><span class="status-dot" id="status-dot"></span> <strong id="status-text">Checking hours…</strong></span>
+    <span>930 Goshen Ave, Fort Wayne, IN 46808</span>
+    <span>Drive-thru available</span>
+  </div>
+</div>
+<main id="top">
+
+  <div class="wrap page-head">
+    <p class="eyebrow">On The Menu</p>
+    <h1 class="display">Full Menu</h1>
+    <p>A sampler of what's cooking, pulled from the current online-ordering menu &mdash; prices and the complete list (tamales, sopes, fajitas, family trays, drinks &amp; more) are always current at the link below.</p>
+  </div>
+  <section style="padding-top:16px;">
+    <div class="wrap">
+      <div class="menu-board">
+        <div class="menu-cols">
+          <div class="menu-cat">
+            <h3>Tacos</h3>
+            <div class="menu-item">
+              <span class="menu-item-name">Taco<span class="menu-item-desc">Corn tortilla, cilantro, onion, lime</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$3.49</span>
+            </div>
+<div class="menu-item">
+              <span class="menu-item-name">Mo's Taco<span class="menu-item-desc">Lettuce, tomato, cheese, lime</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$3.99</span>
+            </div>
+<div class="menu-item">
+              <span class="menu-item-name">Taco del Sur<span class="menu-item-desc">Steak, chorizo, beans, fresco cheese, pork rinds</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$4.75</span>
+            </div>
+<div class="menu-item">
+              <span class="menu-item-name">Taco de Lengua / Tripa<span class="menu-item-desc">Corn tortilla, cilantro, onion, lime</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$4.49</span>
+            </div>
+<div class="menu-item">
+              <span class="menu-item-name">Quesabirrias (3)<span class="menu-item-desc">With consomé for dipping</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$13.49</span>
+            </div>
+</div>
+          <div class="menu-cat">
+            <h3>Burritos &amp; Tortas</h3>
+            <div class="menu-item">
+              <span class="menu-item-name">Big Burrito<span class="menu-item-desc">12&quot; flour, meat, beans, rice, cheese</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$11.99</span>
+            </div>
+<div class="menu-item">
+              <span class="menu-item-name">Big Steak Fries Burrito<span class="menu-item-desc">Steak, beans, rice, cheese, fries</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$13.49</span>
+            </div>
+<div class="menu-item">
+              <span class="menu-item-name">Big Breakfast Burrito<span class="menu-item-desc">Eggs, chorizo or bacon &amp; ham, beans, cheese</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$11.99</span>
+            </div>
+<div class="menu-item">
+              <span class="menu-item-name">Torta<span class="menu-item-desc">Meat, beans, lettuce, tomato, avocado</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$10.99</span>
+            </div>
+</div>
+          <div class="menu-cat">
+            <h3>Quesadillas &amp; Nachos</h3>
+            <div class="menu-item">
+              <span class="menu-item-name">Large Quesadilla<span class="menu-item-desc">12&quot; flour, meat choice &amp; cheese</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$11.49</span>
+            </div>
+<div class="menu-item">
+              <span class="menu-item-name">Small Quesadilla<span class="menu-item-desc">8&quot; flour, meat choice &amp; cheese</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$6.99</span>
+            </div>
+<div class="menu-item">
+              <span class="menu-item-name">Large Nachos<span class="menu-item-desc">Meat, beans, jalapeño, sour cream, cheese</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$14.99</span>
+            </div>
+<div class="menu-item">
+              <span class="menu-item-name">Sope<span class="menu-item-desc">Meat, beans, lettuce, tomato, cheese, sour cream</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$4.50</span>
+            </div>
+</div>
+          <div class="menu-cat">
+            <h3>Platos</h3>
+            <div class="menu-item">
+              <span class="menu-item-name">Steak or Chicken Fajitas<span class="menu-item-desc">Rice, beans, guacamole, lettuce, tomato, tortillas</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$16.99</span>
+            </div>
+<div class="menu-item">
+              <span class="menu-item-name">Chilaquiles<span class="menu-item-desc">Red or green sauce, rice, beans</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$11.99</span>
+            </div>
+<div class="menu-item">
+              <span class="menu-item-name">Carnitas Plato<span class="menu-item-desc">Pork roast meal</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$14.99</span>
+            </div>
+<div class="menu-item">
+              <span class="menu-item-name">Enchiladas<span class="menu-item-desc">Beef or chicken, green or red sauce, rice, beans</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$12.99</span>
+            </div>
+</div>
+          <div class="menu-cat">
+            <h3>Sides &amp; Extras</h3>
+            <div class="menu-item">
+              <span class="menu-item-name">Chips &amp; Guacamole<span class="menu-item-desc">Fresh-made, 8oz</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$8.99</span>
+            </div>
+<div class="menu-item">
+              <span class="menu-item-name">Chips &amp; Queso<span class="menu-item-desc">House queso dip</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$8.99</span>
+            </div>
+<div class="menu-item">
+              <span class="menu-item-name">Rice or Beans<span class="menu-item-desc">16oz</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$5.00</span>
+            </div>
+<div class="menu-item">
+              <span class="menu-item-name">Churros (3)<span class="menu-item-desc">Cinnamon sugar</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$5.00</span>
+            </div>
+</div>
+          <div class="menu-cat">
+            <h3>Drinks</h3>
+            <div class="menu-item">
+              <span class="menu-item-name">Horchata<span class="menu-item-desc">Large, 32oz</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$5.49</span>
+            </div>
+<div class="menu-item">
+              <span class="menu-item-name">Jamaica<span class="menu-item-desc">Large, 32oz</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$4.99</span>
+            </div>
+<div class="menu-item">
+              <span class="menu-item-name">Jarritos<span class="menu-item-desc">Mexican soda</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$3.49</span>
+            </div>
+<div class="menu-item">
+              <span class="menu-item-name">Mexican Coke<span class="menu-item-desc">Glass bottle</span></span>
+              <span class="menu-item-fill"></span><span class="menu-item-price">$3.75</span>
+            </div>
+</div>
+        </div>
+        <div class="menu-note">
+          <p>Tamales, sopes, family trays, combos and the full drink list are all on the live ordering menu &mdash; this page is a sampler, not the complete list.</p>
+          <a class="btn btn-primary" href="https://toast.app/r/mos-tacos-goshen-road/order">See Full Menu &amp; Order</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+<footer>
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <a href="index.html" class="brand">MO'S <span>TACOS</span></a>
+      <p>Taqueria &amp; Mexican Grill on Goshen Ave, serving Fort Wayne with a walk-up window and drive-thru.</p>
+    </div>
+    <div class="foot-links">
+      <div class="foot-col">
+        <h4>Visit</h4>
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=930+Goshen+Ave+Fort+Wayne+IN+46808" target="_blank" rel="noopener">930 Goshen Ave, Fort Wayne</a>
+        <a href="tel:12604841988">(260) 484-1988</a>
+      </div>
+      <div class="foot-col">
+        <h4>Site</h4>
+        <a href="index.html">Home</a>
+        <a href="menu.html">Menu</a>
+        <a href="visit.html">Hours &amp; Location</a>
+      </div>
+      <div class="foot-col">
+        <h4>Order &amp; Follow</h4>
+        <a href="https://toast.app/r/mos-tacos-goshen-road/order">Order Online</a>
+        <a href="https://www.facebook.com/mostacosftw/" target="_blank" rel="noopener">Facebook</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>&copy; <span id="year"></span> Mo's Tacos</span>
+    <span>Hours, menu &amp; pricing shown here are a snapshot &mdash; call ahead to confirm for holidays.</span>
+  </div>
+</footer>
+<script>
+(function(){
+  document.getElementById('year').textContent = new Date().getFullYear();
+  var OPEN_HOUR = 10, CLOSE_HOUR = 21;
+  var now = new Date();
+  var day = now.getDay();
+  var hour = now.getHours() + now.getMinutes()/60;
+  var isOpen = day !== 0 && hour >= OPEN_HOUR && hour < CLOSE_HOUR;
+  var dot = document.getElementById('status-dot');
+  var text = document.getElementById('status-text');
+  if(dot && text){
+    if(isOpen){
+      dot.classList.remove('closed');
+      text.textContent = 'Open now \u00b7 until 9:00 PM';
+    } else {
+      dot.classList.add('closed');
+      text.textContent = day === 0 ? 'Closed today \u00b7 reopens Monday 10:00 AM' : 'Closed now \u00b7 opens 10:00 AM';
+    }
+    text.title = "Based on your device's clock, not confirmed live store status.";
+  }
+  var rows = document.querySelectorAll('[data-hours] tr');
+  rows.forEach(function(r){
+    if(parseInt(r.getAttribute('data-day'),10) === day){
+      r.querySelectorAll('td').forEach(function(td){ td.classList.add('today'); });
+    }
+  });
+})();
+</script>
+</body>
+</html>

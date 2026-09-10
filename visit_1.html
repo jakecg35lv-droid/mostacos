@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hours & Location – Mo's Tacos</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap');
+
+  :root{
+    --bg:#FAF3E7; --surface:#FFFBF3; --surface-2:#F2E2C9;
+    --ink:#241712; --ink-soft:#5B4A3F;
+    --accent:#C43B1F; --accent-ink:#FFFFFF; --accent-2:#3F7A3D; --gold:#B9791C;
+    --line:#E4D5C0;
+    --charred:#1C130E; --charred-ink:#F3E6D3; --charred-line:#3C2C1F;
+    --shadow: 0 18px 40px -22px rgba(28,19,14,0.45);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#18110C; --surface:#221811; --surface-2:#2C1F16;
+      --ink:#F5E9D9; --ink-soft:#C7B29D;
+      --accent:#FF6B45; --accent-ink:#1C130E; --accent-2:#7BC46E; --gold:#EFB13F;
+      --line:#3A2A1E;
+      --charred:#100B08; --charred-ink:#F3E6D3; --charred-line:#3C2C1F;
+      --shadow: 0 18px 40px -20px rgba(0,0,0,0.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#18110C; --surface:#221811; --surface-2:#2C1F16;
+    --ink:#F5E9D9; --ink-soft:#C7B29D;
+    --accent:#FF6B45; --accent-ink:#1C130E; --accent-2:#7BC46E; --gold:#EFB13F;
+    --line:#3A2A1E;
+    --charred:#100B08; --charred-ink:#F3E6D3; --charred-line:#3C2C1F;
+    --shadow: 0 18px 40px -20px rgba(0,0,0,0.6);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:"Work Sans", ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing:antialiased;}
+  img{max-width:100%; display:block;}
+  a{color:inherit;}
+  h1,h2,h3{text-wrap:balance; margin:0;}
+  .display{font-family:"Bungee", ui-sans-serif, system-ui, sans-serif; letter-spacing:0.01em;}
+  .eyebrow{font-size:0.78rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent);}
+  .wrap{max-width:1120px; margin:0 auto; padding-inline:20px;}
+  section{padding-block:56px;}
+  @media (max-width:640px){ section{padding-block:40px;} }
+
+  .nav{position:sticky; top:0; z-index:20; background:color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+  .nav-row{display:flex; align-items:center; justify-content:space-between; gap:16px; padding-block:14px;}
+  .brand{font-family:"Bungee", sans-serif; font-size:1.05rem; line-height:1; color:var(--ink); text-decoration:none; white-space:nowrap;}
+  .brand span{color:var(--accent);}
+  .nav-links{display:flex; align-items:center; gap:22px; font-weight:600; font-size:0.92rem;}
+  .nav-links a{text-decoration:none; color:var(--ink-soft);}
+  .nav-links a:hover{color:var(--accent);}
+  .nav-links a.active{color:var(--accent);}
+  .nav-cta{display:inline-flex; align-items:center; gap:8px; background:var(--accent); color:var(--accent-ink); padding:9px 16px; border-radius:999px; font-weight:700; font-size:0.88rem; text-decoration:none; white-space:nowrap;}
+  @media (max-width:760px){ .nav-links a:not(.nav-cta){display:none;} }
+
+  .status-strip{background:var(--surface-2); border-bottom:1px solid var(--line); font-size:0.85rem; color:var(--ink-soft);}
+  .status-row{display:flex; flex-wrap:wrap; gap:8px 22px; align-items:center; padding-block:9px;}
+  .status-dot{width:8px; height:8px; border-radius:50%; background:var(--accent-2); display:inline-block; flex:none;}
+  .status-dot.closed{background:var(--accent);}
+  .status-row strong{color:var(--ink); font-weight:700;}
+
+  .page-head{padding-block:44px 8px;}
+  .page-head h1{font-size:clamp(2rem, 4vw, 2.8rem); margin-block:10px 12px;}
+  .page-head p{font-size:1.02rem; line-height:1.6; color:var(--ink-soft); max-width:60ch; margin:0;}
+
+  .hero{padding-block:56px 60px;}
+  .hero-grid{display:grid; grid-template-columns:1.05fr 0.95fr; gap:48px; align-items:center;}
+  @media (max-width:860px){ .hero-grid{grid-template-columns:1fr; gap:36px;} }
+  .hero h1{font-size:clamp(2.1rem, 4.4vw, 3.4rem); line-height:1.04; margin-block:14px 18px; color:var(--ink);}
+  .hero p.lede{font-size:1.08rem; line-height:1.6; color:var(--ink-soft); max-width:46ch; margin:0 0 26px;}
+  .chip-row{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:30px;}
+  .chip{display:inline-flex; align-items:center; gap:7px; border:1px solid var(--line); background:var(--surface); padding:7px 13px; border-radius:999px; font-size:0.84rem; font-weight:600; color:var(--ink-soft);}
+  .chip b{color:var(--ink); font-weight:700;}
+  .cta-row{display:flex; flex-wrap:wrap; gap:12px;}
+  .btn{display:inline-flex; align-items:center; gap:9px; padding:13px 22px; border-radius:10px; font-weight:700; font-size:0.95rem; text-decoration:none; border:1px solid transparent; cursor:pointer;}
+  .btn-primary{background:var(--accent); color:var(--accent-ink);}
+  .btn-ghost{background:transparent; border-color:var(--line); color:var(--ink);}
+  .btn:focus-visible{outline:3px solid var(--gold); outline-offset:2px;}
+
+  .hero-art{position:relative; border-radius:20px; overflow:hidden; border:1px solid var(--line); box-shadow:var(--shadow); background:var(--charred);}
+  .hero-art img{width:100%; height:100%; object-fit:cover; aspect-ratio:4/3;}
+  .hero-art figcaption{margin:0; padding:10px 14px; font-size:0.78rem; color:var(--charred-ink); background:var(--charred); border-top:1px solid var(--charred-line); display:flex; justify-content:space-between; gap:10px;}
+
+  .menu-board{background:var(--charred); color:var(--charred-ink); border-radius:22px; padding:clamp(28px,4vw,48px); border:1px solid var(--charred-line);}
+  .menu-board .eyebrow{color:var(--gold);}
+  .menu-board h2{color:var(--charred-ink); font-size:clamp(1.6rem,3vw,2.2rem); margin-block:10px 8px;}
+  .menu-board .sub{color:#C9B29B; max-width:60ch; line-height:1.6; margin:0 0 30px;}
+  .menu-cols{display:grid; grid-template-columns:repeat(2, 1fr); gap:34px 48px;}
+  @media (max-width:760px){ .menu-cols{grid-template-columns:1fr; gap:30px;} }
+  .menu-cat h3{font-family:"Bungee", sans-serif; font-size:1rem; color:var(--gold); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:14px; padding-bottom:10px; border-bottom:2px solid var(--charred-line);}
+  .menu-item{display:flex; gap:10px; align-items:baseline; padding-block:9px; border-bottom:1px dashed var(--charred-line);}
+  .menu-item:last-child{border-bottom:none;}
+  .menu-item-name{font-weight:600; color:var(--charred-ink);}
+  .menu-item-desc{display:block; font-size:0.8rem; color:#B5A18A; font-weight:400; margin-top:2px;}
+  .menu-item-fill{flex:1; border-bottom:2px dotted var(--charred-line); transform:translateY(-4px); min-width:12px;}
+  .menu-item-price{font-variant-numeric:tabular-nums; font-weight:700; color:var(--charred-ink); white-space:nowrap;}
+  .menu-note{margin-top:32px; padding-top:22px; border-top:1px solid var(--charred-line); display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between;}
+  .menu-note p{margin:0; color:#C9B29B; font-size:0.9rem; max-width:48ch; line-height:1.5;}
+
+  .teaser-grid{display:grid; grid-template-columns:repeat(4, 1fr); gap:18px;}
+  @media (max-width:900px){ .teaser-grid{grid-template-columns:repeat(2, 1fr);} }
+  @media (max-width:480px){ .teaser-grid{grid-template-columns:1fr;} }
+  .teaser-card{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px; display:flex; flex-direction:column; gap:6px;}
+  .teaser-card .name{font-weight:700;}
+  .teaser-card .desc{font-size:0.82rem; color:var(--ink-soft); line-height:1.4; flex:1;}
+  .teaser-card .price{font-variant-numeric:tabular-nums; font-weight:800; color:var(--accent);}
+
+  .band{display:grid; grid-template-columns:auto 1fr auto; gap:22px; align-items:center; background:var(--surface-2); border:1px solid var(--line); border-radius:18px; padding:22px 26px;}
+  @media (max-width:640px){ .band{grid-template-columns:1fr; text-align:left;} }
+  .band-icon{width:52px; height:52px; border-radius:14px; background:var(--accent-2); color:#fff; display:flex; align-items:center; justify-content:center; flex:none;}
+  .band-icon svg{width:26px; height:26px;}
+  .band h3{font-size:1.05rem; margin-bottom:4px;}
+  .band p{margin:0; color:var(--ink-soft); font-size:0.92rem; line-height:1.5;}
+
+  .split{display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:start;}
+  @media (max-width:820px){ .split{grid-template-columns:1fr; gap:36px;} }
+  .panel{background:var(--surface); border:1px solid var(--line); border-radius:18px; padding:28px 30px; box-shadow:var(--shadow);}
+  .panel h3{font-size:1.15rem; margin-bottom:18px;}
+  table.hours{width:100%; border-collapse:collapse; font-size:0.95rem;}
+  table.hours td{padding:8px 0; border-bottom:1px solid var(--line);}
+  table.hours tr:last-child td{border-bottom:none;}
+  table.hours td:first-child{color:var(--ink-soft); font-weight:600;}
+  table.hours td:last-child{text-align:right; font-variant-numeric:tabular-nums; font-weight:600;}
+  .today{color:var(--accent) !important;}
+  .addr-line{display:flex; gap:12px; align-items:flex-start; margin-bottom:16px;}
+  .addr-line .ic{flex:none; margin-top:2px; color:var(--ink-soft);}
+  .ic-svg{width:18px; height:18px; display:block;}
+  .addr-line div{line-height:1.5;}
+  .addr-line a{text-decoration:underline; text-decoration-color:var(--line); text-underline-offset:3px;}
+  .price-badge{display:inline-flex; gap:2px; font-weight:800; color:var(--gold); font-size:1.05rem;}
+
+  .mini-hours{width:100%; border-collapse:collapse; font-size:0.92rem; margin-bottom:18px;}
+  .mini-hours td{padding:5px 0; color:var(--ink-soft);}
+  .mini-hours td:last-child{text-align:right; font-weight:700; color:var(--ink); font-variant-numeric:tabular-nums;}
+
+  footer{border-top:1px solid var(--line); padding-block:40px;}
+  .foot-grid{display:flex; flex-wrap:wrap; justify-content:space-between; gap:26px;}
+  .foot-brand .brand{font-size:1.15rem;}
+  .foot-brand p{color:var(--ink-soft); font-size:0.88rem; margin:8px 0 0; max-width:34ch; line-height:1.5;}
+  .foot-links{display:flex; gap:34px; flex-wrap:wrap;}
+  .foot-col h4{font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--ink-soft); margin:0 0 10px;}
+  .foot-col a{display:block; text-decoration:none; color:var(--ink); font-size:0.92rem; padding-block:3px;}
+  .foot-col a:hover{color:var(--accent);}
+  .foot-bottom{margin-top:34px; padding-top:18px; border-top:1px solid var(--line); font-size:0.8rem; color:var(--ink-soft); display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between;}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <div class="wrap nav-row">
+    <a href="index.html" class="brand">MO'S <span>TACOS</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="menu.html">Menu</a>
+      <a href="visit.html" class="active">Hours &amp; Location</a>
+      <a href="tel:12604841988" class="nav-cta">Call (260) 484-1988</a>
+    </div>
+  </div>
+</nav>
+<div class="status-strip">
+  <div class="wrap status-row">
+    <span><span class="status-dot" id="status-dot"></span> <strong id="status-text">Checking hours…</strong></span>
+    <span>930 Goshen Ave, Fort Wayne, IN 46808</span>
+    <span>Drive-thru available</span>
+  </div>
+</div>
+<main id="top">
+
+  <div class="wrap page-head">
+    <p class="eyebrow">Visit Us</p>
+    <h1 class="display">Hours &amp; Location</h1>
+    <p>On Goshen Ave with a walk-up window and drive-thru &mdash; call ahead for holiday hours.</p>
+  </div>
+  <section style="padding-top:16px;">
+    <div class="wrap">
+      <div class="split">
+        <div class="panel">
+          <h3>Hours</h3>
+          <table class="hours" data-hours>
+            <tr data-day="1"><td>Monday</td><td>10:00 AM &ndash; 9:00 PM</td></tr>
+            <tr data-day="2"><td>Tuesday</td><td>10:00 AM &ndash; 9:00 PM</td></tr>
+            <tr data-day="3"><td>Wednesday</td><td>10:00 AM &ndash; 9:00 PM</td></tr>
+            <tr data-day="4"><td>Thursday</td><td>10:00 AM &ndash; 9:00 PM</td></tr>
+            <tr data-day="5"><td>Friday</td><td>10:00 AM &ndash; 9:00 PM</td></tr>
+            <tr data-day="6"><td>Saturday</td><td>10:00 AM &ndash; 9:00 PM</td></tr>
+            <tr data-day="0"><td>Sunday</td><td>Closed</td></tr>
+          </table>
+          <div class="band" style="margin-top:22px;">
+            <div class="band-icon"><svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16v-3.2c0-.5.2-.9.5-1.3l1.8-2.2c.3-.4.8-.6 1.3-.6h8.8c.5 0 1 .2 1.3.6l1.8 2.2c.3.4.5.8.5 1.3V16"/><path d="M4 16h16v2a1 1 0 0 1-1 1h-1.5a1 1 0 0 1-1-1v-1h-9v1a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-2Z"/><circle cx="7.5" cy="16" r="1.4"/><circle cx="16.5" cy="16" r="1.4"/></svg></div>
+            <div>
+              <h3>Drive-thru available</h3>
+              <p>Order from the window or walk up &mdash; no need to park if you're short on time.</p>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <h3>Location &amp; Contact</h3>
+          <div class="addr-line">
+            <span class="ic"><svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+            <div>930 Goshen Ave.<br>Fort Wayne, IN 46808<br><a href="https://www.google.com/maps/search/?api=1&amp;query=930+Goshen+Ave+Fort+Wayne+IN+46808" target="_blank" rel="noopener">Get directions &rarr;</a></div>
+          </div>
+          <div class="addr-line">
+            <span class="ic"><svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1.1-.3 1.2.4 2.5.6 3.8.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C11.6 21 3 12.4 3 2c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.6.6 3.8.1.4 0 .8-.3 1.1L6.6 10.8Z"/></svg></span>
+            <div><a href="tel:12604841988">(260) 484-1988</a></div>
+          </div>
+          <div class="addr-line">
+            <span class="ic"><svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12.5 12.5 20a1.5 1.5 0 0 1-2.1 0l-6.4-6.4a1.5 1.5 0 0 1 0-2.1L11.5 4H19a1 1 0 0 1 1 1v7.5Z"/><circle cx="15.5" cy="8.5" r="1.3"/></svg></span>
+            <div><span class="price-badge">$$</span> &middot; casual counter service</div>
+          </div>
+          <div class="addr-line">
+            <span class="ic"><svg class="ic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M14 8.5h-1.3c-.8 0-1.2.5-1.2 1.3V11h2.4l-.3 2.2h-2.1V21h-2.4v-7.8H7.5V11h1.6V9.4c0-2 1.1-3.4 3.2-3.4H14v2.5Z"/></svg></span>
+            <div><a href="https://www.facebook.com/mostacosftw/" target="_blank" rel="noopener">Follow on Facebook &rarr;</a></div>
+          </div>
+          <div class="cta-row" style="margin-top:8px;">
+            <a class="btn btn-primary" href="tel:12604841988">Call to Order</a>
+            <a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&amp;query=930+Goshen+Ave+Fort+Wayne+IN+46808" target="_blank" rel="noopener">Directions</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+<footer>
+  <div class="wrap foot-grid">
+    <div class="foot-brand">
+      <a href="index.html" class="brand">MO'S <span>TACOS</span></a>
+      <p>Taqueria &amp; Mexican Grill on Goshen Ave, serving Fort Wayne with a walk-up window and drive-thru.</p>
+    </div>
+    <div class="foot-links">
+      <div class="foot-col">
+        <h4>Visit</h4>
+        <a href="https://www.google.com/maps/search/?api=1&amp;query=930+Goshen+Ave+Fort+Wayne+IN+46808" target="_blank" rel="noopener">930 Goshen Ave, Fort Wayne</a>
+        <a href="tel:12604841988">(260) 484-1988</a>
+      </div>
+      <div class="foot-col">
+        <h4>Site</h4>
+        <a href="index.html">Home</a>
+        <a href="menu.html">Menu</a>
+        <a href="visit.html">Hours &amp; Location</a>
+      </div>
+      <div class="foot-col">
+        <h4>Order &amp; Follow</h4>
+        <a href="https://toast.app/r/mos-tacos-goshen-road/order">Order Online</a>
+        <a href="https://www.facebook.com/mostacosftw/" target="_blank" rel="noopener">Facebook</a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>&copy; <span id="year"></span> Mo's Tacos</span>
+    <span>Hours, menu &amp; pricing shown here are a snapshot &mdash; call ahead to confirm for holidays.</span>
+  </div>
+</footer>
+<script>
+(function(){
+  document.getElementById('year').textContent = new Date().getFullYear();
+  var OPEN_HOUR = 10, CLOSE_HOUR = 21;
+  var now = new Date();
+  var day = now.getDay();
+  var hour = now.getHours() + now.getMinutes()/60;
+  var isOpen = day !== 0 && hour >= OPEN_HOUR && hour < CLOSE_HOUR;
+  var dot = document.getElementById('status-dot');
+  var text = document.getElementById('status-text');
+  if(dot && text){
+    if(isOpen){
+      dot.classList.remove('closed');
+      text.textContent = 'Open now \u00b7 until 9:00 PM';
+    } else {
+      dot.classList.add('closed');
+      text.textContent = day === 0 ? 'Closed today \u00b7 reopens Monday 10:00 AM' : 'Closed now \u00b7 opens 10:00 AM';
+    }
+    text.title = "Based on your device's clock, not confirmed live store status.";
+  }
+  var rows = document.querySelectorAll('[data-hours] tr');
+  rows.forEach(function(r){
+    if(parseInt(r.getAttribute('data-day'),10) === day){
+      r.querySelectorAll('td').forEach(function(td){ td.classList.add('today'); });
+    }
+  });
+})();
+</script>
+</body>
+</html>
